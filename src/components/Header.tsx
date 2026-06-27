@@ -2,11 +2,10 @@ import React from "react"
 
 export const Header = () => {
   return (
-    <>
-      <div className="bg-cyan-400 text-center text-4xl">
+    <header className="w-full px-6 py-4 border-b border-white/20">
+      <span className="text-lg font-semibold tracking-tight text-white">
         Wiedznik
-      </div>
-    </>
-
-  )
-}
+      </span>
+    </header>
+  );
+};
