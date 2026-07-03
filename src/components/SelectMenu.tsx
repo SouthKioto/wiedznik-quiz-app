@@ -11,7 +11,7 @@ export const SelectMenu = ({ buttons, isUnder }: ButtonArray) => {
   return (
     <div className={`flex items-center gap-3 ${isUnder ? "flex-col" : "flex-row"}`}>
       {buttons.map((button, index) => (
-        <Button key={index} value={button.value} href={button.href} styles={button.styles} />
+        <Button key={index} value={button.value} href={button.href} styles={button.styles} isDisabled={button.isDisabled} />
       ))}
     </div>
   );

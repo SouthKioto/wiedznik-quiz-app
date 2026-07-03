@@ -25,7 +25,7 @@ export const FileImport = () => {
     for (let i = 0; i < formattedText.length; i += 2) {
       const eng = formattedText[i];
       const pl = formattedText[i + 1];
-      if (eng && pl) pairs.push({ eng, pl });
+      if (eng && pl) pairs.push({ pl, eng });
     }
 
     return pairs;
