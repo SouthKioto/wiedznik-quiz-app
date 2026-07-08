@@ -1,21 +1,31 @@
-# bun-react-tailwind-template
+# 📖 Wiedznik
 
-To install dependencies:
+**Wiedznik** to aplikacja do nauki słówek w formie quizu, zbudowana z myślą o prostocie i szybkości — bez kont, bez chmury, bez zbędnych kroków. Wgrywasz swój zestaw słówek, a aplikacja robi resztę.
 
-```bash
-bun install
-```
+Zapomnij o fiszkach papierowych i rozproszonych notatkach. Wiedznik pozwala Ci stworzyć własne zestawy słówek, przerabiać je w formie interaktywnego quizu i śledzić swoje postępy — wszystko zapisywane lokalnie, w Twojej przeglądarce.
 
-To start a development server:
+## ✨ Co potrafi Wiedznik
 
-```bash
-bun dev
-```
+- 📝 **Twoje słówka, Twoje zasady** — importuj własne zestawy i ucz się tego, czego naprawdę potrzebujesz
+- 🎯 **Quiz, który sprawdza, nie tylko pokazuje** — aktywne przypominanie zamiast biernego czytania
+- 🔀 **Wiele zestawów, wiele sesji** — przełączaj się między materiałami bez utraty postępów
+- 💾 **Zero kont, zero chmury** — dane zostają na Twoim urządzeniu
+- ⚡ **Szybkie jak błyskawica** — żadnego czekania na wczytanie
 
-To run for production:
+## 🗺️ Co dalej
 
-```bash
-bun start
-```
+- [ ] Statystyki nauki (skuteczność, historia sesji)
+- [ ] Tryby quizu (np. tłumaczenie w obie strony)
+- [ ] Eksport/import zestawów jako plik
 
-This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+## 🚀 Uruchomienie
+
+Instrukcja instalacji i uruchomienia projektu znajduje się w [SETUP.md](./SETUP.md).
+
+## 🤝 Wkład w projekt
+
+Issues i pull requesty mile widziane. Przed większymi zmianami warto otworzyć issue z opisem propozycji.
+
+## 📄 Licencja
+
+Dodaj informację o licencji (np. MIT) — obecnie nieokreślona.
