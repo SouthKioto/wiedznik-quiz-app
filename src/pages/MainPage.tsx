@@ -8,7 +8,7 @@ import type { InputProps } from "@/interfaces/InputProps";
 export const MainPage = () => {
   const [isUnder, setIsUnder] = useState(true);
   const [startDisbl, setStartDisbl] = useState<boolean>(true);
-  const [inputBorderdAndBackGr, setInputBorderdAndBackGr] = useState<string>("bg-white/20 border-white/30 text-white")
+  const [startBtnCoursor, setStartBtnCoursor] = useState<string>("cursor-not-allowed")
   const [setName, setSetName] = useState<string>("")
 
   useEffect(() => {
@@ -19,41 +19,39 @@ export const MainPage = () => {
   const buttons: ButtonProps[] = [
     {
       value: "Start",
-      href: "/learn",
+      href: `/learn/${setName}`,
       isDisabled: startDisbl,
-      styles: `w-48 py-2 rounded-lg backdrop-blur-md border ${inputBorderdAndBackGr} text-sm font-medium hover:bg-white/30 transition-colors cursor-pointer`,
-      onClick: () => handleChangeStyles
+      styles: `w-48 py-2 rounded-lg backdrop-blur-md border bg-white/20 border-white/30 text-white text-sm font-medium hover:bg-white/30 transition-colors ${startBtnCoursor}`,
     },
     {
       value: "Import pliku",
       href: "/fileImport",
       styles: "w-48 py-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-sm font-medium hover:bg-white/20 transition-colors cursor-pointer",
     },
+    {
+      value: "Twoje zestawy",
+      href: "/sets",
+      styles: "w-48 py-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-sm font-medium hover:bg-white/20 transition-colors cursor-pointer",
+    },
   ];
 
   const input: InputProps = {
-    value: "Podaj nazwe zestawu",
+    value: setName,
+    placeholder: "Podaj nazwe zestawu",
     styles: "w-80 p-3 mb-4 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-sm font-medium hover:bg-white/20 transition-colors cursor-pointer",
     type: "text",
     onChange: (e: any) => handleChangeEnable(e.target.value),
   }
 
-  const handleChangeStyles = () => {
-    if (!startDisbl) {
-      setInputBorderdAndBackGr("bg-red/20 border-red/30 text-red")
-    }
-
-    setInputBorderdAndBackGr("bg-white/20 border-white/30 text-white")
-  }
-
   const handleChangeEnable = (e: any) => {
-    console.log(e);
-    if (e.length <= 0) {
+    if (e.length < 0) {
       setSetName("")
       setStartDisbl(true);
+      setStartBtnCoursor("coursor-not-allowed")
       return;
     }
 
+    setStartBtnCoursor("cursor-pointer");
     setStartDisbl(false);
     setSetName(e);
   }
@@ -64,6 +62,7 @@ export const MainPage = () => {
       <p className="text-sm text-white/60 mb-10">Wybierz opcję, aby kontynuować</p>
       <Input
         value={input.value}
+        placeholder={input.placeholder}
         styles={input.styles}
         type={input.type}
         onChange={input.onChange}

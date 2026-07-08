@@ -1,5 +1,6 @@
 export interface InputProps {
-  value?: string,
+  value: string,
+  placeholder?: string,
   type: string,
   styles: string,
   isDisabled?: boolean,

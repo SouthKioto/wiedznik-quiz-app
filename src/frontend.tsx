@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { App } from "./App";
 import { FileImport } from "./pages/FileImport";
 import { Quiz } from "./pages/Quiz";
+import { UserSets } from "./pages/UserSets";
 
 const elem = document.getElementById("root")!;
 const app = (
@@ -19,7 +20,8 @@ const app = (
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/fileImport" element={<FileImport />} />
-        <Route path="/learn" element={<Quiz />} />
+        <Route path="/learn/:setName" element={<Quiz />} />
+        <Route path="/sets" element={<UserSets />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
