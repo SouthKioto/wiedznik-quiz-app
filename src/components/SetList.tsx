@@ -28,26 +28,37 @@ export const SetList = () => {
 
       <div className="flex flex-col items-center justify-center mt-10" >
         <div className="bg-white/70 p-6 rounded border-white border grid grid-cols-3 gap-6">
-          <h1 className="col-span-3 text-center">Twoje zestawy</h1>
-          {wordsSet?.map((word, index) => (
+          {wordsSet?.length === 0 ? (
+            <div>
+              Nie posiadasze jeszcze zadnych zestawow
+            </div>
+          ) : (
             <>
-              <Link to={`/learn/${word.name}`} >
-                <ul className="bg-white p-10 rounded cursor-pointer">
-                  <p key={index} className="text-xl mb-4 text-center">Zestaw: {word.name}</p>
-                  <div className="grid grid-cols-3 gap-1">
-                    {word.content.map((content, index) => (
-                      <>
-                        <p key={`eng-${index}`} className="text-sm text-black">{content.eng}</p>
-                        <p key={`sep-${index}`} className="text-sm text-black/30 text-center">—</p>
-                        <p key={`pl-${index}`} className="text-sm text-black text-right">{content.pl}</p>
-                      </>
-                    ))}
-                  </div>
-                </ul>
-              </Link>
-            </>
+              <h1 className="col-span-3 text-center">Twoje zestawy</h1>
+              {wordsSet?.map((word, index) => (
+                <>
+                  <Link to={`/learn/${word.name}`} >
+                    <ul className="bg-white p-10 rounded cursor-pointer">
+                      <p key={index} className="text-xl mb-4 text-center">Zestaw: {word.name}</p>
+                      <div className="grid grid-cols-3 gap-1">
+                        {word.content.map((content, index) => (
+                          <>
+                            <p key={`eng-${index}`} className="text-sm text-black">{content.eng}</p>
+                            <p key={`sep-${index}`} className="text-sm text-black/30 text-center">—</p>
+                            <p key={`pl-${index}`} className="text-sm text-black text-right">{content.pl}</p>
+                          </>
+                        ))}
+                      </div>
+                    </ul>
+                  </Link>
+                </>
 
-          ))}
+              ))}
+            </>
+          )}
+
+
+
 
         </div>
       </div>
