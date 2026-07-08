@@ -47,25 +47,21 @@ export const FileImport = () => {
   };
 
   const addFileToLocalStorage = () => {
-    const storageName = "userSets";
-
-    const raw = localStorage.getItem(storageName);
-
-    if (!raw) return;
-    const currStorageData = JSON.parse(raw) || [];
-
-    let dataStorage: localStorageProps = {
-      name: wordSetName,
-      content: fileContent
-    }
-
-    let updatedData = [...currStorageData, dataStorage];
-
     if (wordSetName.length === 0 || fileContent.length === 0) {
       setError({ errorType: "Name or file content empty", errorContent: "Coś poszło nie tak" });
       return;
     }
 
+    const storageName = "userSets";
+    const raw = localStorage.getItem(storageName);
+    const currStorageData = raw ? JSON.parse(raw) : [];
+
+    const dataStorage: localStorageProps = {
+      name: wordSetName,
+      content: fileContent
+    };
+
+    const updatedData = [...currStorageData, dataStorage];
     localStorage.setItem(storageName, JSON.stringify(updatedData));
   }
 
