@@ -29,7 +29,6 @@ export const Quiz = () => {
 
     const data: [] = JSON.parse(localStorage.getItem("userSets"));
 
-
     if (!data) {
       setError({ errorType: 'Empty imported data', errorContent: 'Dane nie zostały zaimportowanie lub zostały usuniete' });
       return;
@@ -45,19 +44,25 @@ export const Quiz = () => {
 
   const generateRandomWord = (wordsList: Translations[]) => {
     if (wordsList.length === 0) return;
-    const idx = Math.floor(Math.random() * wordsList.length);
-    const word = wordsList[idx];
+
+    let pool = wordsList;
+    if (wordsList.length > 1 && randomWord) {
+      pool = wordsList.filter(w => w !== randomWord);
+    }
+
+    const idx = Math.floor(Math.random() * pool.length);
+    const word = pool[idx];
     if (word) {
       setRandomWord(word);
     }
-  }
+  };
 
   const handleGoNext = () => {
     generateRandomWord(words);
   }
 
   const buttonsLeftRight: ButtonProps = {
-    value: "Przejdz dalej",
+    value: "Nie wiesz? Przejdz dalej",
     styles: "w-48 py-2 mt-5 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-white text-sm font-medium hover:bg-white/30 transition-colors cursor-pointer",
     onClick: handleGoNext,
   }
