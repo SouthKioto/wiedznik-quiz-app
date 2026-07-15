@@ -3,6 +3,7 @@ import { SelectMenu } from "@/components/SelectMenu";
 import type { ButtonProps } from "@/interfaces/ButtonProps";
 import { Input } from "@/components/Input";
 import type { InputProps } from "@/interfaces/InputProps";
+import zaba from "../images/zaba.gif"
 
 
 export const MainPage = () => {
@@ -57,17 +58,26 @@ export const MainPage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center mt-52">
-      <h1 className="text-4xl font-semibold text-white mb-2 tracking-tight">Wiedznik</h1>
-      <p className="text-sm text-white/60 mb-10">Wybierz opcję, aby kontynuować</p>
-      <Input
-        value={input.value}
-        placeholder={input.placeholder}
-        styles={input.styles}
-        type={input.type}
-        onChange={input.onChange}
-      />
-      <SelectMenu buttons={buttons} isUnder={isUnder} />
+    <div className="flex flex-col items-center justify-center min-h-screen w-full px-4">
+      <div>
+        <img src={zaba} className="w-32 sm:w-40 md:w-48 h-auto" />
+      </div>
+      <div className="flex flex-col items-center w-full max-w-sm">
+        <h1 className="text-3xl sm:text-4xl font-semibold text-white mb-2 tracking-tight text-center">
+          Wiedznik
+        </h1>
+        <p className="text-sm text-white/60 mb-8 sm:mb-10 text-center">
+          Wybierz opcję, aby kontynuować
+        </p>
+        <Input
+          value={input.value}
+          placeholder={input.placeholder}
+          styles={input.styles}
+          type={input.type}
+          onChange={input.onChange}
+        />
+        <SelectMenu buttons={buttons} isUnder={isUnder} />
+      </div>
     </div>
   );
 }

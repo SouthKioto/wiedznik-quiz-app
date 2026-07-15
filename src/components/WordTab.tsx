@@ -106,46 +106,55 @@ export const WordTab = ({ word, button }: WordTabProps) => {
   }
 
   return (
-    <div key={attemptCount} className="flex justify-center items-center focus:border-none" tabIndex={-1} onKeyDown={e => {
-      if (e.key == "Enter") {
-        handleCheckWord();
-      }
-    }}>
-      <div className={`${answerStyle.color} ${answerStyle.animation} backdrop-blur-md border text-sm font-medium transition-colors rounded p-6 w-4xl`}>
+    <div
+      key={attemptCount}
+      className="flex justify-center items-center focus:border-none px-4"
+      tabIndex={-1}
+      onKeyDown={e => {
+        if (e.key == "Enter") {
+          handleCheckWord();
+        }
+      }}
+    >
+      <div
+        className={`${answerStyle.color} ${answerStyle.animation} backdrop-blur-md border text-sm font-medium transition-colors rounded p-4 sm:p-6 w-full max-w-4xl`}
+      >
         {isReverse ? (
           <>
-            <p className="uppercase p-6 mb-4 text-center text-3xl">{word.pl}</p>
+            <p className="uppercase p-3 sm:p-6 mb-4 text-center text-xl sm:text-2xl md:text-3xl">{word.pl}</p>
             <Input
               value={inputValue}
               placeholder={input.placeholder}
               styles={input.styles}
               type={input.type}
-              onChange={input.onChange} />
+              onChange={input.onChange}
+            />
           </>
         ) : (
           <>
-            <p className="uppercase p-6 mb-4 text-center text-3xl">{word.eng}</p>
+            <p className="uppercase p-3 sm:p-6 mb-4 text-center text-xl sm:text-2xl md:text-3xl">{word.eng}</p>
             <Input
               value={inputValue}
               placeholder={input.placeholder}
               styles={input.styles}
               type={input.type}
-              onChange={input.onChange} />
+              onChange={input.onChange}
+            />
           </>
         )}
         <div className="">
           {showAnswer ? (
-            <h1>Poprawna odpowiedz: <span className="underline font-bold"> {isReverse ? wordEng : wordPl} </span></h1>
+            <h1 className="text-sm sm:text-base">
+              Poprawna odpowiedz: <span className="underline font-bold"> {isReverse ? wordEng : wordPl} </span>
+            </h1>
           ) : (
             <></>
-          )
-          }
-          <div className="text-right">
+          )}
+          <div className="text-right mt-2">
             <Button value={button.value} styles={button.styles} onClick={handleShowGoodAnswer} />
           </div>
         </div>
       </div>
-
     </div>
   )
 }
