@@ -3,5 +3,5 @@ export interface ButtonProps {
   href?: string,
   styles: string,
   isDisabled?: boolean,
-  onClick?: () => void,
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void,
 }

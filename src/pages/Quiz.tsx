@@ -6,6 +6,8 @@ import type { ButtonProps } from "@/interfaces/ButtonProps"
 import { useState, useEffect } from "react"
 import { useParams } from "react-router";
 
+
+
 export const Quiz = () => {
   const { setName } = useParams<{ setName: string }>()
   const [error, setError] = useState<ErrorProps>({ errorType: '', errorContent: '' });
@@ -91,8 +93,8 @@ export const Quiz = () => {
         />
       </div>
 
-      <div className="flex justify-center items-center">
-        <div className="mt-6">
+      <div className="flex justify-center items-center w-full">
+        <div className="mt-6 w-full max-w-2xl px-4">
           <WordTab word={randomWord} button={buttonsLeftRight} />
         </div>
       </div>

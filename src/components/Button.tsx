@@ -1,16 +1,27 @@
 import type { ButtonProps } from "@/interfaces/ButtonProps";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export const Button = ({ value, href, styles, onClick, isDisabled }: ButtonProps) => {
-  const resolveHref = isDisabled ? "" : href;
+  const navigate = useNavigate();
+  const resolveHref: string | undefined = isDisabled ? "" : href;
+
+  const handleResolveHyprlink = (link: string | undefined) => {
+    if (!link || link.length == 0 || link == undefined) {
+      return;
+    } else {
+      navigate(link);
+    }
+  }
 
   return (
     <>
-      <Link to={resolveHref}>
-        <button className={styles} onClick={onClick} disabled={isDisabled}>
-          {value}
-        </button>
-      </Link >
+      <button className={styles} onClick={(e) => {
+        onClick?.(e);
+        handleResolveHyprlink(resolveHref);
+      }}
+        disabled={isDisabled}>
+        {value}
+      </button>
     </>
   );
 };

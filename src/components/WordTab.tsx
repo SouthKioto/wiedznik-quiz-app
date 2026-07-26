@@ -87,6 +87,10 @@ export const WordTab = ({ word, button }: WordTabProps) => {
     if (inputValue.toLowerCase().trim() !== goodAnswer.toLowerCase().trim()) {
       setAnswerStyle(tabColors.badAnswer);
       setAttemptCount(prev => prev + 1)
+
+      setTimeout(() => {
+        setAnswerStyle(tabColors.default);
+      }, 2000)
       return;
     }
 
@@ -105,6 +109,12 @@ export const WordTab = ({ word, button }: WordTabProps) => {
     }, 3000)
   }
 
+  const buttonSubmit: ButtonProps = {
+    value: "Sprawdz",
+    styles: "w-48 py-2 mt-5 rounded-lg bg-white/20 backdrop-blur-md border border-white/30 text-white text-sm font-medium hover:bg-white/30 transition-colors cursor-pointer",
+    onClick: handleCheckWord,
+  }
+
   return (
     <div
       key={attemptCount}
@@ -117,7 +127,7 @@ export const WordTab = ({ word, button }: WordTabProps) => {
       }}
     >
       <div
-        className={`${answerStyle.color} ${answerStyle.animation} backdrop-blur-md border text-sm font-medium transition-colors rounded p-4 sm:p-6 w-full max-w-4xl`}
+        className={`${answerStyle.color} ${answerStyle.animation} backdrop-blur-md border text-sm font-medium transition-colors rounded p-4 sm:p-5 w-full max-w-12xl`}
       >
         {isReverse ? (
           <>
@@ -150,9 +160,17 @@ export const WordTab = ({ word, button }: WordTabProps) => {
           ) : (
             <></>
           )}
-          <div className="text-right mt-2">
-            <Button value={button.value} styles={button.styles} onClick={handleShowGoodAnswer} />
+
+          <div className="text-right">
+            <div className="text-right mt-2 mr-4 inline">
+              <Button value={button.value} styles={button.styles} onClick={handleShowGoodAnswer} />
+            </div>
+
+            <div className="text-left mt-2 ml-4 inline">
+              <Button value={buttonSubmit.value} styles={buttonSubmit.styles} onClick={handleCheckWord} />
+            </div>
           </div>
+
         </div>
       </div>
     </div>
