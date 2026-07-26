@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Button } from "@/components/Button";
 import type { Translations, localStorageProps } from "@/interfaces/WordsProps"
 import type { ErrorProps } from "@/interfaces/ErrorProps";
+import { file } from "bun";
 
 
 export const FileImport = () => {
@@ -12,8 +13,8 @@ export const FileImport = () => {
 
   const handleSetWordSetName = (value: string) => {
     if (value.length === 0) {
-      setError({ errorType: 'Empty value', errorContent: 'Pole nie może być puste' });
-      return;
+      let newFilename = fileName.substring(0, -3);
+      setWordSetName(newFilename);
     }
     setWordSetName(value);
     setError({ errorType: '', errorContent: '' });
@@ -46,24 +47,38 @@ export const FileImport = () => {
     setFileContent(handleFormatText(content));
   };
 
+
   const addFileToLocalStorage = () => {
-    if (wordSetName.length === 0 || fileContent.length === 0) {
-      setError({ errorType: "Name or file content empty", errorContent: "Coś poszło nie tak" });
+    if (fileContent.length === 0) {
+      setError({
+        errorType: "File content empty",
+        errorContent: "Coś poszło nie tak"
+      });
       return;
     }
+
+    const setName =
+      wordSetName.trim().length > 0
+        ? wordSetName
+        : fileName.substring(0, fileName.lastIndexOf("."));
 
     const storageName = "userSets";
     const raw = localStorage.getItem(storageName);
     const currStorageData = raw ? JSON.parse(raw) : [];
 
     const dataStorage: localStorageProps = {
-      name: wordSetName,
+      name: setName,
       content: fileContent
     };
 
-    const updatedData = [...currStorageData, dataStorage];
-    localStorage.setItem(storageName, JSON.stringify(updatedData));
-  }
+    localStorage.setItem(
+      storageName,
+      JSON.stringify([...currStorageData, dataStorage])
+    );
+
+    setWordSetName(setName);
+  };
+
 
   const hasError = error.errorContent.length > 0;
 

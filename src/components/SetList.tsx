@@ -21,12 +21,15 @@ export const SetList = () => {
   }, [])
 
 
-  const handleRemoveSet = (data: string) => {
+  const handleRemoveSet = (name: string) => {
+    if (!wordsSet) return;
 
-    wordsSet?.find((name) => {
-    })
-    console.log(data);
-  }
+    const newWordsSet = wordsSet.filter(item => item.name !== name);
+
+    setWordsSet(newWordsSet);
+    localStorage.setItem("userSets", JSON.stringify(newWordsSet));
+  };
+
 
   const handleShowWords = (name: string) => {
     setSelectedSet(name);
