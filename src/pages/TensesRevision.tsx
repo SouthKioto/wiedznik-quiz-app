@@ -11,9 +11,9 @@ const tesnsesRev: TenseProps[] = [
       irregular: "",
     },
     example: {
-      exampleAffirmative: "test1",
-      exampleInterrigatve: "test1",
-      exampleNegative: "test1",
+      exampleAffirmative: "I work. ",
+      exampleNegative: "I don't work.",
+      exampleInterrigatve: "Do I work?",
     },
   },
   {
@@ -24,9 +24,9 @@ const tesnsesRev: TenseProps[] = [
       irregular: "",
     },
     example: {
-      exampleAffirmative: "test2",
-      exampleInterrigatve: "test2",
-      exampleNegative: "test2",
+      exampleAffirmative: "I'm working.",
+      exampleInterrigatve: "Am I working?",
+      exampleNegative: "ing. 	I'm not working. ",
     },
   },
 
@@ -38,9 +38,9 @@ const tesnsesRev: TenseProps[] = [
       irregular: "2nd column of table of irregular verbs",
     },
     example: {
-      exampleAffirmative: "test2",
-      exampleInterrigatve: "test2",
-      exampleNegative: "test2",
+      exampleAffirmative: "I worked.",
+      exampleInterrigatve: "Did I work?",
+      exampleNegative: "I didn't work. ",
     },
   },
 
@@ -252,11 +252,7 @@ export const TensesRevision = () => {
         />
       </div>
 
-      <div className="w-screen flex flex-col items-center mt-16 px-4">
-        <div className="w-full max-w-md bg-white/20 backdrop-blur-md border border-white/30 p-6 rounded-xl">
-          <h1>Tenses Revision</h1>
-        </div>
-
+      <div className="w-screen flex flex-col items-center px-4">
         <div className="grid grid-cols-1 w-full">
           <TensesList tensesList={tesnsesRev} />
         </div>

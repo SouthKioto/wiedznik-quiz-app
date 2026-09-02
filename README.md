@@ -28,4 +28,4 @@ Issues i pull requesty mile widziane. Przed większymi zmianami warto otworzyć 
 
 ## 📄 Licencja
 
-Dodaj informację o licencji (np. MIT) — obecnie nieokreślona.
+Obecnie nieokreślona.

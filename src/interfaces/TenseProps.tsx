@@ -13,6 +13,4 @@ export interface TenseProps {
   description: string;
   example: ExampleProps;
   form: TenseForm;
-  // isDisabled?: boolean;
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }
