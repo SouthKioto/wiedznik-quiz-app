@@ -16,7 +16,11 @@ Zapomnij o fiszkach papierowych i rozproszonych notatkach. Wiedznik pozwala Ci s
 
 - [ ] Statystyki nauki (skuteczność, historia sesji)
 - [ ] Tryby quizu (np. tłumaczenie w obie strony)
-- [ ] Eksport/import zestawów jako plik
+- [X] Eksport/import zestawów jako plik
+- [ ] Strona z powtórka czasów w jezyku angielskim
+- [ ] Export słówek do PDF/Txt
+- [ ] Generator sciąg
+- [X] Podgląd importowanych słówek
 
 ## 🚀 Uruchomienie
 
