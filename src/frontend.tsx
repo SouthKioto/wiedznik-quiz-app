@@ -12,6 +12,7 @@ import { App } from "./App";
 import { FileImport } from "./pages/FileImport";
 import { Quiz } from "./pages/Quiz";
 import { UserSets } from "./pages/UserSets";
+import { TensesRevision } from "./pages/TensesRevision";
 
 const elem = document.getElementById("root")!;
 const app = (
@@ -22,6 +23,8 @@ const app = (
         <Route path="/fileImport" element={<FileImport />} />
         <Route path="/learn/:setName" element={<Quiz />} />
         <Route path="/sets" element={<UserSets />} />
+
+        <Route path="/tenses-revision" element={<TensesRevision />} />
       </Routes>
     </HashRouter>
   </StrictMode>
