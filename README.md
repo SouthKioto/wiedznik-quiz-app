@@ -1,35 +1,35 @@
-# 📖 Wiedznik
+# Wiedznik
 
-**Wiedznik** to aplikacja do nauki słówek w formie quizu, zbudowana z myślą o prostocie i szybkości — bez kont, bez chmury, bez zbędnych kroków. Wgrywasz swój zestaw słówek, a aplikacja robi resztę.
+**Wiedznik** is a vocabulary learning app in quiz form, built with simplicity and speed in mind — no accounts, no cloud, no unnecessary steps. You upload your word set, and the app does the rest.
 
-Zapomnij o fiszkach papierowych i rozproszonych notatkach. Wiedznik pozwala Ci stworzyć własne zestawy słówek, przerabiać je w formie interaktywnego quizu i śledzić swoje postępy — wszystko zapisywane lokalnie, w Twojej przeglądarce.
+Forget paper flashcards and scattered notes. Wiedznik lets you create your own vocabulary sets, work through them as an interactive quiz, and track your progress — all stored locally, right in your browser.
 
-## ✨ Co potrafi Wiedznik
+## What Wiedznik can do
 
-- 📝 **Twoje słówka, Twoje zasady** — importuj własne zestawy i ucz się tego, czego naprawdę potrzebujesz
-- 🎯 **Quiz, który sprawdza, nie tylko pokazuje** — aktywne przypominanie zamiast biernego czytania
-- 🔀 **Wiele zestawów, wiele sesji** — przełączaj się między materiałami bez utraty postępów
-- 💾 **Zero kont, zero chmury** — dane zostają na Twoim urządzeniu
-- ⚡ **Szybkie jak błyskawica** — żadnego czekania na wczytanie
+- **Your words, your rules** — import your own sets and learn exactly what you need
+- **A quiz that tests, not just shows** — active recall instead of passive reading
+- **Multiple sets, multiple sessions** — switch between materials without losing progress
+- **No accounts, no cloud** — your data stays on your device
+- **Lightning fast** — no waiting for things to load
 
-## 🗺️ Co dalej
+## What's next
 
-- [ ] Statystyki nauki (skuteczność, historia sesji)
-- [ ] Tryby quizu (np. tłumaczenie w obie strony)
-- [X] Eksport/import zestawów jako plik
-- [ ] Strona z powtórka czasów w jezyku angielskim
-- [ ] Export słówek do PDF/Txt
-- [ ] Generator sciąg
-- [X] Podgląd importowanych słówek
+- [ ] Learning statistics (accuracy, session history)
+- [ ] Quiz modes (e.g. translation in both directions)
+- [X] Export/import sets as a file
+- [ ] English tenses revision page
+- [ ] Export words to PDF/Txt
+- [ ] Cheat sheet generator
+- [X] Preview of imported words
 
-## 🚀 Uruchomienie
+## Getting started
 
-Instrukcja instalacji i uruchomienia projektu znajduje się w [SETUP.md](./SETUP.md).
+Installation and setup instructions can be found in [SETUP.md](./SETUP.md).
 
-## 🤝 Wkład w projekt
+## Contributing
 
-Issues i pull requesty mile widziane. Przed większymi zmianami warto otworzyć issue z opisem propozycji.
+Issues and pull requests are welcome. For larger changes, please open an issue describing your proposal first.
 
-## 📄 Licencja
+## License
 
-Obecnie nieokreślona.
+Not yet specified.
