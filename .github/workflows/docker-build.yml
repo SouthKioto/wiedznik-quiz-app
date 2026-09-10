@@ -1,15 +1,30 @@
-name: Build Docker image
+name: Build and Deploy
 
 on:
   push:
     branches: [master]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout kodu
         uses: actions/checkout@v4
 
-      - name: Zbuduj obraz Dockera
-        run: docker build -t wiedznik .
+      - name: Zainstaluj Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Zainstaluj zależności
+        run: bun install --frozen-lockfile
+
+      - name: Zbuduj appkę
+        run: bun run build.ts
+
+      - name: Deploy na Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: './dist'
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
