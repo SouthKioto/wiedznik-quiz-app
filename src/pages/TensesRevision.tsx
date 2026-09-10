@@ -414,9 +414,9 @@ export const TensesRevision = () => {
         />
       </div>
 
-      <div className="w-screen h-screen">
-        <div className=" w-[30%] h-[90%] flex flex-col items-center px-4 float-left">
-          <div className="grid grid-cols-1 overflow-auto">
+      <div className="w-full min-h-screen flex flex-col md:flex-row gap-4 px-4 pb-6 md:px-6">
+        <div className="w-full md:w-[30%] md:max-h-[85vh] flex flex-col items-stretch">
+          <div className="grid grid-cols-1 gap-2 overflow-x-hidden md:overflow-y-auto pb-2 md:pb-0 text-sm sm:text-base">
             <TensesListOnlyTitles
               tensesList={tensesRev}
               onClick={(e) =>
@@ -425,8 +425,9 @@ export const TensesRevision = () => {
             />
           </div>
         </div>
-        <div className="float-left w-[68%]">
-          <div className="bg-white/50 border border-white rounded p-6">
+
+        <div className="w-full md:w-[68%]">
+          <div className="bg-white/50 border border-white rounded p-4 md:p-6">
             <TenseContentViewer content={openContent} />
           </div>
         </div>

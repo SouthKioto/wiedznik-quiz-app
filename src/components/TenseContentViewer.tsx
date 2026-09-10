@@ -17,7 +17,7 @@ export const TenseContentViewer = ({ content }: TensesListProps) => {
   return (
     <>
       <div>
-        <div className="text-center text-2xl underline font-mono">
+        <div className="text-center text-2xl underline capitalize font-bold">
           <h1>{content.title}</h1>
         </div>
       </div>
@@ -53,9 +53,15 @@ export const TenseContentViewer = ({ content }: TensesListProps) => {
                   Regularne:
                   <span className="block font-mono text-center font-bold">
                     <ul className="">
-                      <li>{content.form.affirmative}</li>
-                      <li>{content.form.interrogative}</li>
-                      <li>{content.form.negative}</li>
+                      <li className="border-b border-black mt-5">
+                        {content.form.affirmative}
+                      </li>
+                      <li className="border-b border-black mt-5">
+                        {content.form.interrogative}
+                      </li>
+                      <li className="border-b border-black mt-5">
+                        {content.form.negative}
+                      </li>
                     </ul>
                   </span>
                 </div>
@@ -73,9 +79,15 @@ export const TenseContentViewer = ({ content }: TensesListProps) => {
                   Regularne:
                   <span className="block font-mono text-center font-bold">
                     <ul>
-                      <li>{content.form.affirmative}</li>
-                      <li>{content.form.interrogative}</li>
-                      <li>{content.form.negative}</li>
+                      <li className="border-b border-black pt-5">
+                        {content.form.affirmative}
+                      </li>
+                      <li className="border-b border-black pt-5">
+                        {content.form.interrogative}
+                      </li>
+                      <li className="border-b border-black pt-5">
+                        {content.form.negative}
+                      </li>
                     </ul>
                   </span>
                 </div>
