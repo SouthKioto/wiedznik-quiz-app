@@ -61,7 +61,7 @@ export const MainPage = () => {
 
   const buttons: ButtonProps[] = [
     {
-      value: "Start",
+      value: "Rozpocznij",
       isDisabled: startDisbl,
       styles: `w-48 py-2 rounded-lg backdrop-blur-md border bg-white/20 border-white/30 text-white text-sm font-medium hover:bg-white/30 transition-colors ${startBtnCoursor}`,
       onClick: handleCheckSetExist,
