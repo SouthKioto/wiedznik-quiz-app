@@ -32,4 +32,4 @@ Issues and pull requests are welcome. For larger changes, please open an issue d
 
 ## License
 
-Not yet specified.
+None

@@ -1,0 +1,15 @@
+name: Build Docker image
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kodu
+        uses: actions/checkout@v4
+
+      - name: Zbuduj obraz Dockera
+        run: docker build -t wiedznik .

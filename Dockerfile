@@ -1,5 +1,5 @@
 # Budowanie apki
-FROM oven/bun:1 AS buidl
+FROM oven/bun:1 AS build
 
 WORKDIR /app
 
@@ -12,10 +12,8 @@ COPY . .
 RUN bun run build.ts
 
 # serw apki na ngix
-FROM ngix:alpine
+FROM nginx:alpine
 
-COPY --from=build /app/dist /usr/share/ngix/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
-
-
