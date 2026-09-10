@@ -17,7 +17,7 @@ Forget paper flashcards and scattered notes. Wiedznik lets you create your own v
 - [ ] Learning statistics (accuracy, session history)
 - [ ] Quiz modes (e.g. translation in both directions)
 - [X] Export/import sets as a file
-- [ ] English tenses revision page
+- [X] English tenses revision page
 - [ ] Export words to PDF/Txt
 - [ ] Cheat sheet generator
 - [X] Preview of imported words
