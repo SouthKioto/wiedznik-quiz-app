@@ -1,6 +1,8 @@
 export interface TenseForm {
-  regular: string;
-  irregular: string;
+  affirmative: string;
+  negative: string;
+  interrogative: string;
+  irregular?: string;
 }
 export interface ExampleProps {
   exampleAffirmative: string;
@@ -11,6 +13,7 @@ export interface ExampleProps {
 export interface TenseProps {
   title: string;
   description: string;
+  usage: string[];
   example: ExampleProps;
   form: TenseForm;
 }

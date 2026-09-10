@@ -2,7 +2,7 @@ import type { TenseProps } from "@/interfaces/TenseProps";
 import { useState } from "react";
 
 interface TensesListProps {
-  tensesList: TenseProps[];
+  tensesList?: TenseProps[];
 }
 
 export const TensesList = ({ tensesList }: TensesListProps) => {

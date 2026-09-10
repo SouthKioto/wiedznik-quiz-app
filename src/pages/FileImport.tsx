@@ -1,12 +1,15 @@
-import { useState } from "react"
+import { useState } from "react";
 import { Button } from "@/components/Button";
-import type { Translations, localStorageProps } from "@/interfaces/WordsProps"
+import type { Translations, localStorageProps } from "@/interfaces/WordsProps";
 import type { ErrorProps } from "@/interfaces/ErrorProps";
-import { file } from "bun";
-
+import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router";
 
 export const FileImport = () => {
-  const [error, setError] = useState<ErrorProps>({ errorType: '', errorContent: '' });
+  const [error, setError] = useState<ErrorProps>({
+    errorType: "",
+    errorContent: "",
+  });
   const [wordSetName, setWordSetName] = useState<string>("");
   const [fileContent, setFileContent] = useState<Translations[]>([]);
   const [fileName, setFileName] = useState<string>("Wybierz plik...");
@@ -17,8 +20,8 @@ export const FileImport = () => {
       setWordSetName(newFilename);
     }
     setWordSetName(value);
-    setError({ errorType: '', errorContent: '' });
-  }
+    setError({ errorType: "", errorContent: "" });
+  };
 
   const handleFormatText = (content: string): Translations[] => {
     const formattedText = content.split(";");
@@ -31,13 +34,14 @@ export const FileImport = () => {
     }
 
     return pairs;
-  }
+  };
 
-  const getFile = (file: File) => new Promise<string>((resolve) => {
-    const reader = new FileReader();
-    reader.onload = e => resolve(e.target?.result as string);
-    reader.readAsText(file);
-  });
+  const getFile = (file: File) =>
+    new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target?.result as string);
+      reader.readAsText(file);
+    });
 
   const handleChange = async (e: any) => {
     const file = e.target.files?.[0];
@@ -47,12 +51,11 @@ export const FileImport = () => {
     setFileContent(handleFormatText(content));
   };
 
-
   const addFileToLocalStorage = () => {
     if (fileContent.length === 0) {
       setError({
         errorType: "File content empty",
-        errorContent: "Coś poszło nie tak"
+        errorContent: "Coś poszło nie tak",
       });
       return;
     }
@@ -68,17 +71,37 @@ export const FileImport = () => {
 
     const dataStorage: localStorageProps = {
       name: setName,
-      content: fileContent
+      content: fileContent,
     };
 
     localStorage.setItem(
       storageName,
-      JSON.stringify([...currStorageData, dataStorage])
+      JSON.stringify([...currStorageData, dataStorage]),
     );
 
     setWordSetName(setName);
-  };
 
+    toast.success(
+      <span>
+        Twój zestaw: {wordSetName} został stworzony poprawnie. Twoje stworzone
+        zestawy możesz zobaczyć{" "}
+        <Link to={"/sets"}>
+          <span className="underline">tutaj</span>
+        </Link>
+        .
+      </span>,
+      {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      },
+    );
+  };
 
   const hasError = error.errorContent.length > 0;
 
@@ -92,10 +115,16 @@ export const FileImport = () => {
         />
       </div>
 
+      <ToastContainer />
+
       <div className="flex flex-col items-center mt-16 px-4">
         <div className="w-full max-w-md bg-white/20 backdrop-blur-md border border-white/30 p-6 rounded-xl">
-          <h1 className="text-2xl font-semibold text-white mb-1">Import pliku</h1>
-          <p className="text-sm text-white/60 mb-6">Wybierz plik ze słówkami, aby zobaczyć podgląd</p>
+          <h1 className="text-2xl font-semibold text-white mb-1">
+            Import pliku
+          </h1>
+          <p className="text-sm text-white/60 mb-6">
+            Wybierz plik ze słówkami, aby zobaczyć podgląd
+          </p>
 
           <label className="flex items-center gap-3 border border-white/30 rounded-lg px-4 py-3 cursor-pointer hover:border-white/60 transition-colors bg-white/10">
             <span className="text-white/60 text-sm">📄</span>
@@ -108,7 +137,6 @@ export const FileImport = () => {
       {fileContent.length > 0 ? (
         <div className="flex flex-col items-center mt-6 px-4 pb-16">
           <div className="w-full max-w-md bg-white/20 backdrop-blur-md border border-white/30 rounded-xl p-6">
-
             {hasError && (
               <div className="mb-4 px-4 py-3 rounded-lg bg-red-500/20 border border-red-400/40 text-red-100 text-sm">
                 {error.errorContent}
@@ -122,9 +150,21 @@ export const FileImport = () => {
             <div className="grid grid-cols-3 gap-y-2">
               {fileContent.map((content, index) => (
                 <>
-                  <p key={`eng-${index}`} className="text-sm text-white">{content.eng}</p>
-                  <p key={`sep-${index}`} className="text-sm text-white/30 text-center">—</p>
-                  <p key={`pl-${index}`} className="text-sm text-white text-right">{content.pl}</p>
+                  <p key={`eng-${index}`} className="text-sm text-white">
+                    {content.eng}
+                  </p>
+                  <p
+                    key={`sep-${index}`}
+                    className="text-sm text-white/30 text-center"
+                  >
+                    —
+                  </p>
+                  <p
+                    key={`pl-${index}`}
+                    className="text-sm text-white text-right"
+                  >
+                    {content.pl}
+                  </p>
                 </>
               ))}
             </div>
@@ -134,11 +174,10 @@ export const FileImport = () => {
                 type="text"
                 className="flex-1 text-sm bg-white/10 border border-white/30 rounded-lg px-3 py-2 outline-none text-white placeholder-white/40 focus:border-white/60 transition-colors"
                 placeholder="Nazwa zestawu..."
-                onChange={e => handleSetWordSetName(e.target.value)}
+                onChange={(e) => handleSetWordSetName(e.target.value)}
               />
               <Button
                 value="Dodaj"
-                href="/"
                 isDisabled={hasError}
                 styles="text-sm px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white hover:bg-white/30 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 onClick={addFileToLocalStorage}
@@ -153,4 +192,4 @@ export const FileImport = () => {
       )}
     </>
   );
-}
+};
