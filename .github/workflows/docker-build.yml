@@ -8,19 +8,19 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout kodu
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Zainstaluj Bun
+      - name: Install bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Zainstaluj zależności
+      - name: Install
         run: bun install --frozen-lockfile
 
-      - name: Zbuduj appkę
+      - name: Create app
         run: bun run build.ts
 
-      - name: Deploy na Netlify
+      - name: Deploy Netlify
         uses: nwtgck/actions-netlify@v3
         with:
           publish-dir: './dist'

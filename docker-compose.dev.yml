@@ -1,0 +1,9 @@
+services:
+  wiedznik-dev:
+    image: oven/bun:1
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    network_mode: "host"
+    command: sh -c "bun install && bun --hot src/index.html"
