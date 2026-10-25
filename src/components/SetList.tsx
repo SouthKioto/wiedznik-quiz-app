@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react";
 import type { localStorageProps } from "@/interfaces/WordsProps";
 import { Button } from "./Button";
 import { Link, useNavigate } from "react-router";
 import type { ButtonProps } from "@/interfaces/ButtonProps";
+import Popup from "reactjs-popup";
 
 export const SetList = () => {
   const setNameRef = useRef(null);
@@ -18,23 +19,25 @@ export const SetList = () => {
     const wordsArr: localStorageProps[] = JSON.parse(userSets);
 
     setWordsSet(wordsArr);
-  }, [])
-
+  }, []);
 
   const handleRemoveSet = (name: string) => {
     if (!wordsSet) return;
 
-    const newWordsSet = wordsSet.filter(item => item.name !== name);
+    const newWordsSet = wordsSet.filter((item) => item.name !== name);
 
     setWordsSet(newWordsSet);
     localStorage.setItem("userSets", JSON.stringify(newWordsSet));
   };
 
-
   const handleShowWords = (name: string) => {
     setSelectedSet(name);
     setWordsVisible(!wordsVisible);
-  }
+  };
+
+  const handleExportTo = (method: string) => {
+    console.log("exportuje do");
+  };
 
   const getButtons = (setName: string): ButtonProps[] => [
     {
@@ -52,7 +55,15 @@ export const SetList = () => {
         e?.stopPropagation();
         handleShowWords(setName);
       },
-    }
+    },
+    {
+      value: "Export do",
+      styles: `w-48 my-2 mb-4 py-2 rounded-lg backdrop-blur-md border bg-yellow-500/20 border-yellow-500/30 text-yellow-500 text-sm font-medium hover:bg-yellow-500/30 transition-colors cursor-pointer`,
+      onClick(e) {
+        e?.stopPropagation();
+        handleExportTo("pdf");
+      },
+    },
   ];
 
   return (
@@ -63,6 +74,8 @@ export const SetList = () => {
           href="/"
           styles="text-sm text-white/70 hover:text-white transition-colors cursor-pointer"
         />
+
+        <Popup trigger={<Button value="Export" styles="bg-black p-3" />} />
       </div>
       <div className="flex flex-col items-center justify-center mt-10 px-4">
         <div className="bg-white/70 p-4 sm:p-6 rounded border-white border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start gap-4 sm:gap-6 w-full max-w-5xl">
@@ -72,7 +85,9 @@ export const SetList = () => {
             </div>
           ) : (
             <>
-              <h1 className="col-span-full text-center text-lg sm:text-xl">Twoje zestawy</h1>
+              <h1 className="col-span-full text-center text-lg sm:text-xl">
+                Twoje zestawy
+              </h1>
               {wordsSet?.map((word) => (
                 <div key={word.name} className="self-start">
                   <div
@@ -84,7 +99,10 @@ export const SetList = () => {
                     </p>
 
                     {getButtons(word.name).map((button) => (
-                      <div key={button.value} className="justify-center text-center">
+                      <div
+                        key={button.value}
+                        className="justify-center text-center"
+                      >
                         <Button
                           value={button.value}
                           styles={button.styles}
@@ -114,7 +132,5 @@ export const SetList = () => {
         </div>
       </div>
     </>
-  )
-}
-
-
+  );
+};
