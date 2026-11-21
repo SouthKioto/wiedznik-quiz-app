@@ -17,3 +17,11 @@ declare module "*.module.css" {
   const classes: { readonly [key: string]: string };
   export = classes;
 }
+
+declare module "*.ttf" {
+  /**
+   * A path to the font file
+   */
+  const path: string;
+  export = path;
+}

@@ -1,15 +1,28 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react";
 import type { localStorageProps } from "@/interfaces/WordsProps";
 import { Button } from "./Button";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import type { ButtonProps } from "@/interfaces/ButtonProps";
+import { ModalWindow } from "./ModalWindow";
+import { exportSet, type ExportFormat } from "@/utils/exportSet";
+
+const exportFormats: { id: ExportFormat; label: string; hint: string }[] = [
+  { id: "pdf", label: "PDF", hint: "Tabela słówek do wydruku" },
+  {
+    id: "txt",
+    label: "TXT",
+    hint: "Format importu: eng;pl; (da się wczytać z powrotem)",
+  },
+];
 
 export const SetList = () => {
-  const setNameRef = useRef(null);
   const navigate = useNavigate();
   const [wordsSet, setWordsSet] = useState<localStorageProps[]>();
   const [wordsVisible, setWordsVisible] = useState<boolean>(false);
   const [selectedSet, setSelectedSet] = useState<string>();
+  const [exportSetName, setExportSetName] = useState<string | null>(null);
+  const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
+  const [isExporting, setIsExporting] = useState<boolean>(false);
 
   useEffect(() => {
     const userSets = localStorage.getItem("userSets");
@@ -18,23 +31,41 @@ export const SetList = () => {
     const wordsArr: localStorageProps[] = JSON.parse(userSets);
 
     setWordsSet(wordsArr);
-  }, [])
-
+  }, []);
 
   const handleRemoveSet = (name: string) => {
     if (!wordsSet) return;
 
-    const newWordsSet = wordsSet.filter(item => item.name !== name);
+    const newWordsSet = wordsSet.filter((item) => item.name !== name);
 
     setWordsSet(newWordsSet);
     localStorage.setItem("userSets", JSON.stringify(newWordsSet));
   };
 
-
   const handleShowWords = (name: string) => {
     setSelectedSet(name);
     setWordsVisible(!wordsVisible);
-  }
+  };
+
+  const closeExportModal = () => {
+    if (isExporting) return;
+    setExportSetName(null);
+  };
+
+  const handleExport = async () => {
+    const set = wordsSet?.find((item) => item.name === exportSetName);
+    if (!set) return;
+
+    setIsExporting(true);
+    try {
+      await exportSet(set, exportFormat);
+      setExportSetName(null);
+    } catch (err) {
+      console.error("Eksport nie powiódł się", err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const getButtons = (setName: string): ButtonProps[] => [
     {
@@ -52,7 +83,15 @@ export const SetList = () => {
         e?.stopPropagation();
         handleShowWords(setName);
       },
-    }
+    },
+    {
+      value: "Export do",
+      styles: `w-48 my-2 mb-4 py-2 rounded-lg backdrop-blur-md border bg-yellow-500/20 border-yellow-500/30 text-yellow-500 text-sm font-medium hover:bg-yellow-500/30 transition-colors cursor-pointer`,
+      onClick(e) {
+        e?.stopPropagation();
+        setExportSetName(setName);
+      },
+    },
   ];
 
   return (
@@ -72,7 +111,9 @@ export const SetList = () => {
             </div>
           ) : (
             <>
-              <h1 className="col-span-full text-center text-lg sm:text-xl">Twoje zestawy</h1>
+              <h1 className="col-span-full text-center text-lg sm:text-xl">
+                Twoje zestawy
+              </h1>
               {wordsSet?.map((word) => (
                 <div key={word.name} className="self-start">
                   <div
@@ -84,7 +125,10 @@ export const SetList = () => {
                     </p>
 
                     {getButtons(word.name).map((button) => (
-                      <div key={button.value} className="justify-center text-center">
+                      <div
+                        key={button.value}
+                        className="justify-center text-center"
+                      >
                         <Button
                           value={button.value}
                           styles={button.styles}
@@ -113,8 +157,61 @@ export const SetList = () => {
           )}
         </div>
       </div>
+
+      <ModalWindow
+        open={exportSetName !== null}
+        onClose={closeExportModal}
+        title="Eksportuj zestaw"
+        subtitle={exportSetName ?? undefined}
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={closeExportModal}
+              className="h-11 cursor-pointer rounded-xl border border-white/25 px-4 text-sm font-medium hover:bg-white/10 transition-colors"
+            >
+              Anuluj
+            </button>
+            <button
+              type="button"
+              onClick={handleExport}
+              disabled={isExporting}
+              className="h-11 cursor-pointer rounded-xl bg-white px-5 text-sm font-semibold text-[#134E4A] hover:bg-white/90 disabled:cursor-wait disabled:opacity-60 transition-colors"
+            >
+              {isExporting ? "Eksportuję…" : "Pobierz"}
+            </button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-2.5">
+          {exportFormats.map((format) => {
+            const isSelected = exportFormat === format.id;
+            return (
+              <button
+                key={format.id}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => setExportFormat(format.id)}
+                className={`flex min-h-15 cursor-pointer items-center justify-between gap-3 rounded-xl px-4 py-3 text-left transition-colors ${
+                  isSelected
+                    ? "border-2 border-lime-200 bg-lime-200/10"
+                    : "border border-white/20 bg-white/5 hover:bg-white/10"
+                }`}
+              >
+                <span className="flex flex-col gap-0.5">
+                  <span className="text-[15px] font-semibold">
+                    {format.label}
+                  </span>
+                  <span className="text-sm text-white/75">{format.hint}</span>
+                </span>
+                {isSelected && (
+                  <span className="text-sm font-semibold">Wybrane</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </ModalWindow>
     </>
-  )
-}
-
-
+  );
+};
