@@ -58,16 +58,19 @@ export const WordSetCreator = () => {
     });
 
     if (!canIsert) {
-      toast.error(<span>Prosze uzupelnic przynajmniej trzy slowka</span>, {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(
+        <span>Prosze uzupelnic przynajmniej {slowka.length} slowka</span>,
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        },
+      );
       return;
     }
 
