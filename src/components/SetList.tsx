@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { localStorageProps } from "@/interfaces/WordsProps";
 import { Button } from "./Button";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import type { ButtonProps } from "@/interfaces/ButtonProps";
 import { SafeLocalStorage } from "@/classes/SafeLocalStorage";
 
 export const SetList = () => {
-  const setNameRef = useRef(null);
   const navigate = useNavigate();
   const [wordsSet, setWordsSet] = useState<localStorageProps[]>();
   const [wordsVisible, setWordsVisible] = useState<boolean>(false);
   const [selectedSet, setSelectedSet] = useState<string>();
+  const [exportSetName, setExportSetName] = useState<string | null>(null);
+  const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
+  const [isExporting, setIsExporting] = useState<boolean>(false);
 
   const sf = new SafeLocalStorage("userSets");
 

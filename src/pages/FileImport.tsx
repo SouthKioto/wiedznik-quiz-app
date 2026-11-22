@@ -33,12 +33,15 @@ export const FileImport = () => {
     return pairs;
   };
 
-  const getFile = (file: File) =>
-    new Promise<string>((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve(e.target?.result as string);
-      reader.readAsText(file);
-    });
+  // Najpierw UTF-8; jeśli bajty są niepoprawne (np. CSV z Excela w ANSI), fallback na Windows-1250
+  const getFile = async (file: File): Promise<string> => {
+    const buffer = await file.arrayBuffer();
+    try {
+      return new TextDecoder("utf-8", { fatal: true }).decode(buffer);
+    } catch {
+      return new TextDecoder("windows-1250").decode(buffer);
+    }
+  };
 
   const handleChange = async (e: any) => {
     const file = e.target.files?.[0];
