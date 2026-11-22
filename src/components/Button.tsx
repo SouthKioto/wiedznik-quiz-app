@@ -1,7 +1,7 @@
 import type { ButtonProps } from "@/interfaces/ButtonProps";
 import { Link, useNavigate } from "react-router";
 
-export const Button = ({ value, href, styles, onClick, isDisabled }: ButtonProps) => {
+export const Button = ({ value, icon, ariaLabel, href, styles, onClick, isDisabled }: ButtonProps) => {
   const navigate = useNavigate();
   const resolveHref: string | undefined = isDisabled ? "" : href;
 
@@ -15,11 +15,12 @@ export const Button = ({ value, href, styles, onClick, isDisabled }: ButtonProps
 
   return (
     <>
-      <button className={styles} onClick={(e) => {
+      <button className={styles} aria-label={ariaLabel} onClick={(e) => {
         onClick?.(e);
         handleResolveHyprlink(resolveHref);
       }}
         disabled={isDisabled}>
+        {icon}
         {value}
       </button>
     </>

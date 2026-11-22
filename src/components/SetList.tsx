@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react";
 import type { localStorageProps } from "@/interfaces/WordsProps";
 import { Button } from "./Button";
 import { Link, useNavigate } from "react-router";
 import type { ButtonProps } from "@/interfaces/ButtonProps";
+import { SafeLocalStorage } from "@/classes/SafeLocalStorage";
 
 export const SetList = () => {
   const setNameRef = useRef(null);
@@ -11,30 +12,27 @@ export const SetList = () => {
   const [wordsVisible, setWordsVisible] = useState<boolean>(false);
   const [selectedSet, setSelectedSet] = useState<string>();
 
-  useEffect(() => {
-    const userSets = localStorage.getItem("userSets");
-    if (!userSets) return;
+  const sf = new SafeLocalStorage("userSets");
 
-    const wordsArr: localStorageProps[] = JSON.parse(userSets);
+  useEffect(() => {
+    const wordsArr: localStorageProps[] = sf.safeGetData();
 
     setWordsSet(wordsArr);
-  }, [])
-
+  }, []);
 
   const handleRemoveSet = (name: string) => {
     if (!wordsSet) return;
 
-    const newWordsSet = wordsSet.filter(item => item.name !== name);
+    const newWordsSet = sf.safeRemove(name, wordsSet);
 
     setWordsSet(newWordsSet);
     localStorage.setItem("userSets", JSON.stringify(newWordsSet));
   };
 
-
   const handleShowWords = (name: string) => {
     setSelectedSet(name);
     setWordsVisible(!wordsVisible);
-  }
+  };
 
   const getButtons = (setName: string): ButtonProps[] => [
     {
@@ -52,7 +50,7 @@ export const SetList = () => {
         e?.stopPropagation();
         handleShowWords(setName);
       },
-    }
+    },
   ];
 
   return (
@@ -72,11 +70,13 @@ export const SetList = () => {
             </div>
           ) : (
             <>
-              <h1 className="col-span-full text-center text-lg sm:text-xl">Twoje zestawy</h1>
+              <h1 className="col-span-full text-center text-lg sm:text-xl">
+                Twoje zestawy
+              </h1>
               {wordsSet?.map((word) => (
                 <div key={word.name} className="self-start">
                   <div
-                    className="bg-white p-6 sm:p-10 rounded cursor-pointer"
+                    className="bg-white text-black p-6 sm:p-10 rounded cursor-pointer"
                     onClick={() => navigate(`/learn/${word.name}`)}
                   >
                     <p className="text-lg sm:text-xl mb-4 text-center">
@@ -84,7 +84,10 @@ export const SetList = () => {
                     </p>
 
                     {getButtons(word.name).map((button) => (
-                      <div key={button.value} className="justify-center text-center">
+                      <div
+                        key={button.value}
+                        className="justify-center text-center"
+                      >
                         <Button
                           value={button.value}
                           styles={button.styles}
@@ -95,7 +98,7 @@ export const SetList = () => {
                   </div>
 
                   {wordsVisible && word.name === selectedSet && (
-                    <div className="bg-white mt-2 p-4 rounded">
+                    <div className="bg-white text-black mt-2 p-4 rounded">
                       <div className="grid grid-cols-3 gap-1">
                         {word.content.map((content, contentIndex) => (
                           <React.Fragment key={contentIndex}>
@@ -114,7 +117,5 @@ export const SetList = () => {
         </div>
       </div>
     </>
-  )
-}
-
-
+  );
+};

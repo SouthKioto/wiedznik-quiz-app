@@ -4,6 +4,7 @@ import type { Translations, localStorageProps } from "@/interfaces/WordsProps";
 import type { ErrorProps } from "@/interfaces/ErrorProps";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router";
+import { SafeLocalStorage } from "@/classes/SafeLocalStorage";
 
 export const FileImport = () => {
   const [error, setError] = useState<ErrorProps>({
@@ -15,10 +16,6 @@ export const FileImport = () => {
   const [fileName, setFileName] = useState<string>("Wybierz plik...");
 
   const handleSetWordSetName = (value: string) => {
-    if (value.length === 0) {
-      let newFilename = fileName.substring(0, -3);
-      setWordSetName(newFilename);
-    }
     setWordSetName(value);
     setError({ errorType: "", errorContent: "" });
   };
@@ -65,32 +62,33 @@ export const FileImport = () => {
         ? wordSetName
         : fileName.substring(0, fileName.lastIndexOf("."));
 
-    const storageName = "userSets";
-    const raw = localStorage.getItem(storageName);
-    const currStorageData = raw ? JSON.parse(raw) : [];
+    const sf = new SafeLocalStorage("userSets");
+    let isSet = sf.safeSave(setName, fileContent);
 
-    const dataStorage: localStorageProps = {
-      name: setName,
-      content: fileContent,
-    };
-
-    localStorage.setItem(
-      storageName,
-      JSON.stringify([...currStorageData, dataStorage]),
-    );
-
-    setWordSetName(setName);
-
-    toast.success(
-      <span>
-        Twój zestaw: {wordSetName} został stworzony poprawnie. Twoje stworzone
-        zestawy możesz zobaczyć{" "}
-        <Link to={"/sets"}>
-          <span className="underline">tutaj</span>
-        </Link>
-        .
-      </span>,
-      {
+    if (isSet) {
+      setWordSetName(setName);
+      toast.success(
+        <span>
+          Twój zestaw: {setName} został stworzony poprawnie. Twoje stworzone
+          zestawy możesz zobaczyć{" "}
+          <Link to={"/sets"}>
+            <span className="underline">tutaj</span>
+          </Link>
+          .
+        </span>,
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        },
+      );
+    } else {
+      toast.error(<span>Coś poszło nie tak .</span>, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: true,
@@ -99,8 +97,8 @@ export const FileImport = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-      },
-    );
+      });
+    }
   };
 
   const hasError = error.errorContent.length > 0;

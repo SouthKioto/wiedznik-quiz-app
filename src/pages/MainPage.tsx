@@ -79,6 +79,12 @@ export const MainPage = () => {
         "w-48 py-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-sm font-medium hover:bg-white/20 transition-colors cursor-pointer",
     },
     {
+      value: "Kreator zestawów",
+      href: "/creator",
+      styles:
+        "w-48 py-2 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white/80 text-sm font-medium hover:bg-white/20 transition-colors cursor-pointer",
+    },
+    {
       value: "Czasy powtorka",
       href: "/tenses-revision",
       styles:

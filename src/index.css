@@ -29,6 +29,12 @@
   --color-info: #7dd3fc;
   --color-info-bg: #0c4a6e;
   --color-info-fg: #bae6fd;
+
+  /* czcionki i zaokrąglenie kart */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-card: 20px; /* rounded-card */
 }
 
 @font-face {
