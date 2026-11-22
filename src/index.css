@@ -1,25 +1,61 @@
 @import "tailwindcss";
 
+@theme {
+  /* tło aplikacji (gradient) */
+  --color-bg-from: #1e5a73;
+  --color-bg-via: #2f8f6b;
+  --color-bg-to: #a89a2e;
+
+  /* powierzchnie */
+  --color-surface: #082024; /* karty: bg-surface/30 */
+  --color-modal: #10363a; /* panel modala */
+  --color-overlay: #041418; /* tło pod modalem: bg-overlay/60 */
+
+  /* akcje */
+  --color-ink: #134e4a; /* tekst na białym przycisku */
+  --color-accent: #d9f99d; /* focus, zaznaczenie, hover linków */
+
+  /* sukces */
+  --color-success: #86efac; /* obramowanie */
+  --color-success-bg: #14532d; /* tło */
+  --color-success-fg: #bbf7d0; /* tekst / ikona */
+
+  /* błąd i usuwanie */
+  --color-danger: #fca5a5;
+  --color-danger-bg: #7f1d1d;
+  --color-danger-fg: #fecaca;
+
+  /* informacja */
+  --color-info: #7dd3fc;
+  --color-info-bg: #0c4a6e;
+  --color-info-fg: #bae6fd;
+
+  /* czcionki i zaokrąglenie kart */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --radius-card: 20px; /* rounded-card */
+}
+
 @font-face {
-  font-family: 'SignatureGold';
-  src: url('./fonts/SignatureGold.ttf') format('truetype');
+  font-family: "SignatureGold";
+  src: url("./fonts/SignatureGold.ttf") format("truetype");
 }
 
 body {
-  height: 100%;
-  background-image: linear-gradient(150deg,
-      rgba(42, 123, 155, 1) 0%,
-      rgba(87, 199, 133, 1) 50%,
-      rgba(237, 221, 83, 1) 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+  min-height: 100%;
+  color: var(--color-white);
+  background: linear-gradient(
+      150deg,
+      var(--color-bg-from) 0%,
+      var(--color-bg-via) 55%,
+      var(--color-bg-to) 100%
+    )
+    fixed;
 }
-
 
 /* answers animations */
 @keyframes shake {
-
   10%,
   90% {
     transform: translateX(-1px);

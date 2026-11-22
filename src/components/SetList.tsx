@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { localStorageProps } from "@/interfaces/WordsProps";
 import { Button } from "./Button";
 import { useNavigate } from "react-router";
 import type { ButtonProps } from "@/interfaces/ButtonProps";
-import { ModalWindow } from "./ModalWindow";
-import { exportSet, type ExportFormat } from "@/utils/exportSet";
-
-const exportFormats: { id: ExportFormat; label: string; hint: string }[] = [
-  { id: "pdf", label: "PDF", hint: "Tabela słówek do wydruku" },
-  {
-    id: "txt",
-    label: "TXT",
-    hint: "Format importu: eng;pl; (da się wczytać z powrotem)",
-  },
-];
+import { SafeLocalStorage } from "@/classes/SafeLocalStorage";
 
 export const SetList = () => {
   const navigate = useNavigate();
@@ -24,11 +14,10 @@ export const SetList = () => {
   const [exportFormat, setExportFormat] = useState<ExportFormat>("pdf");
   const [isExporting, setIsExporting] = useState<boolean>(false);
 
-  useEffect(() => {
-    const userSets = localStorage.getItem("userSets");
-    if (!userSets) return;
+  const sf = new SafeLocalStorage("userSets");
 
-    const wordsArr: localStorageProps[] = JSON.parse(userSets);
+  useEffect(() => {
+    const wordsArr: localStorageProps[] = sf.safeGetData();
 
     setWordsSet(wordsArr);
   }, []);
@@ -36,7 +25,7 @@ export const SetList = () => {
   const handleRemoveSet = (name: string) => {
     if (!wordsSet) return;
 
-    const newWordsSet = wordsSet.filter((item) => item.name !== name);
+    const newWordsSet = sf.safeRemove(name, wordsSet);
 
     setWordsSet(newWordsSet);
     localStorage.setItem("userSets", JSON.stringify(newWordsSet));
@@ -45,26 +34,6 @@ export const SetList = () => {
   const handleShowWords = (name: string) => {
     setSelectedSet(name);
     setWordsVisible(!wordsVisible);
-  };
-
-  const closeExportModal = () => {
-    if (isExporting) return;
-    setExportSetName(null);
-  };
-
-  const handleExport = async () => {
-    const set = wordsSet?.find((item) => item.name === exportSetName);
-    if (!set) return;
-
-    setIsExporting(true);
-    try {
-      await exportSet(set, exportFormat);
-      setExportSetName(null);
-    } catch (err) {
-      console.error("Eksport nie powiódł się", err);
-    } finally {
-      setIsExporting(false);
-    }
   };
 
   const getButtons = (setName: string): ButtonProps[] => [
@@ -82,14 +51,6 @@ export const SetList = () => {
       onClick(e) {
         e?.stopPropagation();
         handleShowWords(setName);
-      },
-    },
-    {
-      value: "Export do",
-      styles: `w-48 my-2 mb-4 py-2 rounded-lg backdrop-blur-md border bg-yellow-500/20 border-yellow-500/30 text-yellow-500 text-sm font-medium hover:bg-yellow-500/30 transition-colors cursor-pointer`,
-      onClick(e) {
-        e?.stopPropagation();
-        setExportSetName(setName);
       },
     },
   ];
@@ -117,7 +78,7 @@ export const SetList = () => {
               {wordsSet?.map((word) => (
                 <div key={word.name} className="self-start">
                   <div
-                    className="bg-white p-6 sm:p-10 rounded cursor-pointer"
+                    className="bg-white text-black p-6 sm:p-10 rounded cursor-pointer"
                     onClick={() => navigate(`/learn/${word.name}`)}
                   >
                     <p className="text-lg sm:text-xl mb-4 text-center">
@@ -139,7 +100,7 @@ export const SetList = () => {
                   </div>
 
                   {wordsVisible && word.name === selectedSet && (
-                    <div className="bg-white mt-2 p-4 rounded">
+                    <div className="bg-white text-black mt-2 p-4 rounded">
                       <div className="grid grid-cols-3 gap-1">
                         {word.content.map((content, contentIndex) => (
                           <React.Fragment key={contentIndex}>
@@ -157,61 +118,6 @@ export const SetList = () => {
           )}
         </div>
       </div>
-
-      <ModalWindow
-        open={exportSetName !== null}
-        onClose={closeExportModal}
-        title="Eksportuj zestaw"
-        subtitle={exportSetName ?? undefined}
-        footer={
-          <>
-            <button
-              type="button"
-              onClick={closeExportModal}
-              className="h-11 cursor-pointer rounded-xl border border-white/25 px-4 text-sm font-medium hover:bg-white/10 transition-colors"
-            >
-              Anuluj
-            </button>
-            <button
-              type="button"
-              onClick={handleExport}
-              disabled={isExporting}
-              className="h-11 cursor-pointer rounded-xl bg-white px-5 text-sm font-semibold text-[#134E4A] hover:bg-white/90 disabled:cursor-wait disabled:opacity-60 transition-colors"
-            >
-              {isExporting ? "Eksportuję…" : "Pobierz"}
-            </button>
-          </>
-        }
-      >
-        <div className="flex flex-col gap-2.5">
-          {exportFormats.map((format) => {
-            const isSelected = exportFormat === format.id;
-            return (
-              <button
-                key={format.id}
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => setExportFormat(format.id)}
-                className={`flex min-h-15 cursor-pointer items-center justify-between gap-3 rounded-xl px-4 py-3 text-left transition-colors ${
-                  isSelected
-                    ? "border-2 border-lime-200 bg-lime-200/10"
-                    : "border border-white/20 bg-white/5 hover:bg-white/10"
-                }`}
-              >
-                <span className="flex flex-col gap-0.5">
-                  <span className="text-[15px] font-semibold">
-                    {format.label}
-                  </span>
-                  <span className="text-sm text-white/75">{format.hint}</span>
-                </span>
-                {isSelected && (
-                  <span className="text-sm font-semibold">Wybrane</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-      </ModalWindow>
     </>
   );
 };
